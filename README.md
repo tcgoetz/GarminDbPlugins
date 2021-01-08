@@ -23,4 +23,4 @@ Test your plugin:
 - The test creates a activities.db in a temp directory which is listed in the output.
 - Load the DB and check the tables, fields, and views.
 
-After testing your plugin, submit a pull request on this repositoy against the develop branch.
+After testing your plugin, submit a pull request on this repository against the develop branch.
