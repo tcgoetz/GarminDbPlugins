@@ -29,12 +29,12 @@ def create_activity_view(cls, act_db):
         cls.activities_table.max_hr.label('max_hr'),
         cls.activities_table.avg_rr.label('avg_rr'),
         cls.activities_table.max_rr.label('max_rr'),
-        cls.activities_table.calories.label('calories'),
+        cls.round_ext_col(cls.activities_table, 'calories'),
         cls.avg_cadence.label('avg_cadence'),
         cls.activities_table.training_effect.label('training_effect'),
         cls.activities_table.anaerobic_training_effect.label('anaerobic_training_effect')
     ]
-    view_name = cls._get_default_view_name()
+    view_name = 'elliptical_activities'
     logger.info("Creating elliptical view %s if needed.", view_name)
     cls.create_join_view(act_db, view_name, view_selectable, cls.activities_table, order_by=cls.activities_table.start_time.desc())
 
