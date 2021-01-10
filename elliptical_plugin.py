@@ -24,13 +24,13 @@ def create_activity_view(cls, act_db):
         cls.activities_table.stop_time.label('stop_time'),
         cls.activities_table.elapsed_time.label('elapsed_time'),
         cls.steps.label('steps'),
-        cls.distance.label('distance'),
+        cls.round_col('distance'),
         cls.activities_table.avg_hr.label('avg_hr'),
         cls.activities_table.max_hr.label('max_hr'),
         cls.activities_table.avg_rr.label('avg_rr'),
         cls.activities_table.max_rr.label('max_rr'),
         cls.round_ext_col(cls.activities_table, 'calories'),
-        cls.avg_cadence.label('avg_cadence'),
+        cls.round_ext_col(cls.activities_table, 'avg_cadence'),
         cls.activities_table.training_effect.label('training_effect'),
         cls.activities_table.anaerobic_training_effect.label('anaerobic_training_effect')
     ]
