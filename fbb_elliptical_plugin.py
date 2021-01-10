@@ -1,4 +1,4 @@
-"""Plugin for processing heart rate variance data from the IQ application Elliptical from fbbbrown."""
+"""Plugin for processing data from the IQ application Elliptical from fbbbrown."""
 
 __author__ = "Tom Goetz"
 __copyright__ = "Copyright Tom Goetz"
@@ -15,7 +15,7 @@ logger = logging.getLogger(__file__)
 
 @classmethod
 def create_activity_view(cls, act_db):
-    """Create a database view for the hrv plugin data."""
+    """Create a database view for the elliptical plugin data."""
     view_selectable = [
         cls.activities_table.activity_id.label('activity_id'),
         cls.activities_table.name.label('name'),
@@ -39,7 +39,7 @@ def create_activity_view(cls, act_db):
     cls.create_join_view(act_db, view_name, view_selectable, cls.activities_table, order_by=cls.activities_table.start_time.desc())
 
 
-class elliptical(ActivityPluginBase):
+class fbb_elliptical(ActivityPluginBase):
     """A GarminDb plugin for saving data from the IQ application Elliptical from fbbbrown."""
 
     _application_id = bytearray(b'\x17+\xdc\xa5&\x8eL\x0e\xbbn\x12\xbe\xeej\xdc\x17')

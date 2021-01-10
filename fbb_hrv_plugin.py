@@ -35,13 +35,10 @@ def create_activity_view(cls, act_db):
     cls.create_join_view(act_db, view_name, view_selectable, cls.activities_table, order_by=cls.activities_table.start_time.desc())
 
 
-class hrv(ActivityPluginBase):
+class fbb_hrv(ActivityPluginBase):
     """A GarminDb plugin for saving data from the IQ application Heart Monitor + HRV from fbbbrown."""
 
-    _sport = 4  # Sport.fitness_equipment: 4
-    _sub_sport = 26  # SubSport.cardio_training: 26
-
-    _dev_fields = ['hrv_s', 'hrv_btb', 'hrv_hr', 'min_hr', 'hrv_rmssd', 'hrv_sdrr_f', 'hrv_pnn50']
+    _application_id = bytearray(b'\x0b\xdc\x0eu\x9b\xaaAz\x8c\x9f\xe9vf*].')
 
     _records_tablename = 'hrv_records'
     _records_version = 1

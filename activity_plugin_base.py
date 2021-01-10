@@ -16,9 +16,8 @@ class ActivityPluginBase():
     @classmethod
     def matches_activity_file(cls, fit_file):
         """Return if the file matches this plugin."""
-        if hasattr(cls, '_application_id') and cls._application_id == fit_file.dev_application_id:
-            logger.info("Plugin %s matches file %s on application_id %r", cls.__name__, fit_file, cls._application_id)
-            return True
+        if hasattr(cls, '_application_id'):
+            return cls._application_id == fit_file.dev_application_id
         if hasattr(cls, '_sport') and (fit_file.sport_type is None or fit_file.sport_type.value is not cls._sport):
             return False
         if hasattr(cls, '_sub_sport') and (fit_file.sub_sport_type is None or fit_file.sub_sport_type.value is not cls._sub_sport):
@@ -26,9 +25,7 @@ class ActivityPluginBase():
         if hasattr(cls, '_dev_fields'):
             for dev_field in cls._dev_fields:
                 if dev_field not in fit_file.dev_fields:
-                    logger.info("dev field %s not in %s", dev_field, fit_file.filename)
                     return False
-        logger.info("Plugin %s matches file %s", cls.__name__, fit_file)
         return True
 
     @classmethod
