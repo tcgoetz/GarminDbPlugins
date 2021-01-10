@@ -20,9 +20,8 @@ Creating your FIT Activity file plugin:
   - The most commonly used message types in activity files are records, laps, and sessions. Decide which of those you will be saving data from.
   - Define tables for records, laps, and sessions depending upon your needs. Examples can be found in existing plugins.
     - Change the table names to match your plugin.
-    - Chnage to table field names and types to suite your data. 
-- Change the table fields to match your dev fields.
-- Change the view to match your fields.
+    - Change to table field names and types to suite your data. 
+- Decide if your data needs a database view and change your plugins create_activity_view function to match your fields.
 
 Test your plugin:
 - Publish a copy of your plugin to the ~/HealthData/Plugins directory.
