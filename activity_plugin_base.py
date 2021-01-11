@@ -29,16 +29,16 @@ class ActivityPluginBase():
         return True
 
     @classmethod
-    def init_activity(cls, dynamic_db, act_db_class, activities_table):
+    def init_activity(cls, act_db_class, activities_table):
         """Initialize an instance of the elliptical plugin as an activity FIT file plugin."""
         logger.info("Initializing tables for activity plugin %s with act_table %s", cls.__name__, activities_table)
         if hasattr(cls, '_records_tablename') and 'record' not in cls._tables:
-            cls._tables['record'] = dynamic_db.CreateTable(cls._records_tablename, act_db_class, cls._records_version, cls._records_pk, cls._records_cols)
+            cls._tables['record'] = activities_table.create(cls._records_tablename, act_db_class, cls._records_version, cls._records_pk, cls._records_cols)
         if hasattr(cls, '_laps_tablename') and 'lap' not in cls._tables:
-            cls._tables['lap'] = dynamic_db.CreateTable(cls._laps_tablename, act_db_class, cls._laps_version, cls._laps_pk, cls._laps_cols)
+            cls._tables['lap'] = activities_table.create(cls._laps_tablename, act_db_class, cls._laps_version, cls._laps_pk, cls._laps_cols)
         if hasattr(cls, '_sessions_tablename') and 'session' not in cls._tables:
-            cls._tables['session'] = dynamic_db.CreateTable(cls._sessions_tablename, act_db_class, cls._sessions_version, cols=cls._sessions_cols,
-                                                            create_view=cls._views['activity_view'], vars={'activities_table': activities_table})
+            cls._tables['session'] = activities_table.create(cls._sessions_tablename, act_db_class, cls._sessions_version, cols=cls._sessions_cols,
+                                                             create_view=cls._views['activity_view'], vars={'activities_table': activities_table})
 
     @classmethod
     def _get_field(cls, message_fields, field_name_list):

@@ -60,10 +60,10 @@ class fbb_dozen_cycle(ActivityPluginBase):
         'activity_id': {'args': [String, ForeignKey('activities.activity_id')]},
         'record': {'args': [Integer]},
         'timestamp': {'args': [DateTime]},
-        'estimated_power': {'args': [Float]},
+        'estimated_power': {'args': [Float], 'units': 'watts'},
         'percent_grade': {'args': [Float]},
-        'normalized_power': {'args': [Float]},
-        'estmated_ftp': {'args': [Float]}
+        'normalized_power': {'args': [Float], 'units': 'watts'},
+        'estmated_ftp': {'args': [Float], 'units': 'watts'}
     }
 
     _sessions_tablename = 'dozen_cycle_sessions'
@@ -71,10 +71,10 @@ class fbb_dozen_cycle(ActivityPluginBase):
     _sessions_cols = {
         'activity_id': {'args': [String, ForeignKey('activities.activity_id')], 'kwargs': {'primary_key': True}},
         'timestamp': {'args': [DateTime]},
-        'estimated_power_avg': {'args': [Float]},
-        'max_power': {'args': [Float]},
-        'max_ftp': {'args': [Float]},
-        'normalized_power': {'args': [Float]}
+        'estimated_power_avg': {'args': [Float], 'units': 'watts'},
+        'max_power': {'args': [Float], 'units': 'watts'},
+        'max_ftp': {'args': [Float], 'units': 'watts'},
+        'normalized_power': {'args': [Float], 'units': 'watts'}
     }
 
     _tables = {}
@@ -109,6 +109,6 @@ class fbb_dozen_cycle(ActivityPluginBase):
                 'max_ftp'               : message_fields.get('dev_mxFTP'),
                 'normalized_power'      : message_fields.get('dev_nPwr'),
             }
-            logger.info("writing %s session %r for %s message %r", self.__class__.__name__, session, fit_file.filename, message_fields)
+            logger.debug("writing %s session %r for %s message %r", self.__class__.__name__, session, fit_file.filename, message_fields)
             activity_db_session.add(session_table(**session))
         return {}

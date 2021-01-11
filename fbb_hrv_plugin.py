@@ -47,9 +47,9 @@ class fbb_hrv(ActivityPluginBase):
         'activity_id': {'args': [String, ForeignKey('activities.activity_id')]},
         'record': {'args': [Integer]},
         'timestamp': {'args': [DateTime]},
-        'hrv_s': {'args': [Integer]},
-        'hrv_btb': {'args': [Integer]},
-        'hrv_hr': {'args': [Integer]}
+        'hrv_s': {'args': [Integer], 'units': 'ms'},
+        'hrv_btb': {'args': [Integer], 'units': 'ms'},
+        'hrv_hr': {'args': [Integer], 'unis': 'bpm'}
     }
 
     _sessions_tablename = 'hrv_sessions'
@@ -57,12 +57,12 @@ class fbb_hrv(ActivityPluginBase):
     _sessions_cols = {
         'activity_id': {'args': [String, ForeignKey('activities.activity_id')], 'kwargs': {'primary_key': True}},
         'timestamp': {'args': [DateTime]},
-        'min_hr': {'args': [Integer]},
-        'hrv_rmssd': {'args': [Integer]},
-        'hrv_sdrr_f': {'args': [Integer]},
-        'hrv_sdrr_l': {'args': [Integer]},
-        'hrv_pnn50': {'args': [Integer]},
-        'hrv_pnn20': {'args': [Integer]}
+        'min_hr': {'args': [Integer], 'units': 'bpm'},
+        'hrv_rmssd': {'args': [Integer], 'units': 'bpm'},
+        'hrv_sdrr_f': {'args': [Integer], 'units': 'bpm'},
+        'hrv_sdrr_l': {'args': [Integer], 'units': 'bpm'},
+        'hrv_pnn50': {'args': [Integer], 'units': '%'},
+        'hrv_pnn20': {'args': [Integer], 'units': '%'}
     }
 
     _tables = {}

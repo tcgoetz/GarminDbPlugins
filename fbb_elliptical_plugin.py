@@ -44,9 +44,6 @@ class fbb_elliptical(ActivityPluginBase):
 
     _application_id = bytearray(b'\x17+\xdc\xa5&\x8eL\x0e\xbbn\x12\xbe\xeej\xdc\x17')
 
-    _sport = 4  # Sport.fitness_equipment: 4
-    _sub_sport = 15  # SubSport.elliptical: 15
-
     _records_tablename = 'elliptical_records'
     _records_version = 1
     _records_pk = ("activity_id", "record")
@@ -56,7 +53,8 @@ class fbb_elliptical(ActivityPluginBase):
         'timestamp': {'args': [DateTime]},
         'distance': {'args': [Integer]},
         'speed': {'args': [Integer]},
-        'cadence': {'args': [Integer]}
+        'cadence': {'args': [Integer], 'units': 'rpm'},
+        'momentary_energy_expenditure': {'args': [Float], 'units': 'c/hr'},
     }
 
     _sessions_tablename = 'elliptical_sessions'
@@ -66,8 +64,8 @@ class fbb_elliptical(ActivityPluginBase):
         'timestamp': {'args': [DateTime]},
         'distance': {'args': [Integer]},
         'steps': {'args': [Integer]},
-        'avg_cadence': {'args': [Integer]},
-        'battery_used': {'args': [Float]}
+        'avg_cadence': {'args': [Integer], 'units': 'rpm'},
+        'battery_used': {'args': [Float], 'units': '%'}
     }
 
     _tables = {}
@@ -83,9 +81,10 @@ class fbb_elliptical(ActivityPluginBase):
         record_table = self._tables['record']
         if not record_table.s_exists(activity_db_session, {'activity_id' : activity_id, 'record' : record_num}):
             plugin_record = {
-                'activity_id'   : activity_id,
-                'record'        : record_num,
-                'timestamp'     : fit_file.utc_datetime_to_local(message_fields.timestamp)
+                'activity_id'                   : activity_id,
+                'record'                        : record_num,
+                'timestamp'                     : fit_file.utc_datetime_to_local(message_fields.timestamp),
+                'momentary_energy_expenditure'  : self._get_field(message_fields, ['dev_eE', 'dev_engExpend']),
             }
             plugin_record.update(record)
             logger.debug("writing %s record %r for %s", self.__class__.__name__, plugin_record, fit_file.filename)
@@ -105,9 +104,9 @@ class fbb_elliptical(ActivityPluginBase):
                 'distance'      : distance,
                 'avg_cadence'   : avg_cadence,
                 'steps'         : self._get_field(message_fields, ['dev_tStps', 'dev_Stps', 'dev_Steps', 'dev_ts', 'total_steps']),
-                'battery_used'  : self._get_field(message_fields, ['dev_%bat', 'BatteryUsed'])
+                'battery_used'  : self._get_field(message_fields, ['dev_%bat', 'dev_BatteryUsed'])
             }
-            logger.info("writing %s session %r for %s message %r", self.__class__.__name__, session, fit_file.filename, message_fields)
+            logger.debug("writing %s session %r for %s message %r", self.__class__.__name__, session, fit_file.filename, message_fields)
             activity_db_session.add(session_table(**session))
         return {
             'distance'      : distance,

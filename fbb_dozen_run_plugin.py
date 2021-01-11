@@ -34,10 +34,11 @@ def create_activity_view(cls, act_db):
         cls.activities_table.max_cadence.label('max_rpms'),
         cls.round_ext_col(cls.activities_table, 'avg_speed'),
         cls.round_ext_col(cls.activities_table, 'max_speed'),
-        cls.round_col('estimated_power_avg'),
-        cls.round_col('max_power'),
+        cls.round_col('avg_running_economy'),
+        cls.round_col('avg_power'),
         cls.round_col('max_ftp'),
-        cls.round_col('normalized_power'),
+        cls.round_col('avg_training_peaks_re'),
+        cls.round_col('xuxumatu_re'),
         cls.activities_table.training_effect.label('training_effect'),
         cls.activities_table.anaerobic_training_effect.label('anaerobic_training_effect')
     ]
@@ -58,9 +59,9 @@ class fbb_dozen_run(ActivityPluginBase):
         'activity_id': {'args': [String, ForeignKey('activities.activity_id')]},
         'record': {'args': [Integer]},
         'timestamp': {'args': [DateTime]},
-        'momentary_energy_expenditure': {'args': [Float]},
+        'momentary_energy_expenditure': {'args': [Float], 'units': 'c/hr'},
         'relative_running_economy': {'args': [Float]},
-        'power': {'args': [Float]},
+        'power': {'args': [Float], 'units': 'watts'},
         'training_peaks_re': {'args': [Float]},
         'fellnr_re': {'args': [Float]}
     }
@@ -71,7 +72,7 @@ class fbb_dozen_run(ActivityPluginBase):
         'activity_id': {'args': [String, ForeignKey('activities.activity_id')], 'kwargs': {'primary_key': True}},
         'timestamp': {'args': [DateTime]},
         'avg_running_economy': {'args': [Float]},
-        'avg_power': {'args': [Float]},
+        'avg_power': {'args': [Float], 'units': 'watts'},
         'avg_training_peaks_re': {'args': [Float]},
         'xuxumatu_re': {'args': [Float]}
     }
@@ -87,13 +88,13 @@ class fbb_dozen_run(ActivityPluginBase):
                 'activity_id'                   : activity_id,
                 'record'                        : record_num,
                 'timestamp'                     : fit_file.utc_datetime_to_local(message_fields.timestamp),
-                'momentary_energy_expenditure'  : message_fields.get('dev_eE'),
-                'relative_running_economy'      : message_fields.get('dev_rE'),
+                'momentary_energy_expenditure'  : self._get_field(message_fields, ['dev_eE', 'dev_engExpend']),
+                'relative_running_economy'      : self._get_field(message_fields, ['dev_rE', 'dev_runEcono']),
                 'power'                         : message_fields.get('dev_pwr'),
                 'training_peaks_re'             : message_fields.get('dev_tpRE'),
-                'fellnr_re'                     : message_fields.get('frnrRE'),
+                'fellnr_re'                     : message_fields.get('dev_frnrRE'),
             }
-            logger.info("writing %s record %r for %s", self.__class__.__name__, record, fit_file.filename)
+            logger.debug("writing %s record %r for %s", self.__class__.__name__, record, fit_file.filename)
             activity_db_session.add(record_table(**record))
         return {}
 
@@ -110,6 +111,6 @@ class fbb_dozen_run(ActivityPluginBase):
                 'avg_training_peaks_re' : message_fields.get('dev_tpaRE'),
                 'xuxumatu_re'           : message_fields.get('dev_xRE'),
             }
-            logger.info("writing %s session %r for %s message %r", self.__class__.__name__, session, fit_file.filename, message_fields)
+            logger.debug("writing %s session %r for %s message %r", self.__class__.__name__, session, fit_file.filename, message_fields)
             activity_db_session.add(session_table(**session))
         return {'steps': steps} if steps else {}
