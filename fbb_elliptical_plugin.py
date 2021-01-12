@@ -44,6 +44,11 @@ class fbb_elliptical(ActivityPluginBase):
 
     _application_id = bytearray(b'\x17+\xdc\xa5&\x8eL\x0e\xbbn\x12\xbe\xeej\xdc\x17')
 
+    #
+    # This app has a lot of fields in its dev fields description but only a few are populated. If you have examples where more of the fields are populated than are
+    # represented here, please send in the example FIT file and I will add the additional fields.
+    #
+
     _records_tablename = 'elliptical_records'
     _records_version = 1
     _records_pk = ("activity_id", "record")

@@ -35,8 +35,6 @@ def create_activity_view(cls, act_db):
         cls.round_ext_col(cls.activities_table, 'avg_speed'),
         cls.round_ext_col(cls.activities_table, 'max_speed'),
         cls.round_col('avg_running_economy'),
-        cls.round_col('avg_power'),
-        cls.round_col('max_ftp'),
         cls.round_col('avg_training_peaks_re'),
         cls.round_col('xuxumatu_re'),
         cls.activities_table.training_effect.label('training_effect'),
@@ -52,6 +50,11 @@ class fbb_dozen_run(ActivityPluginBase):
 
     _application_id = bytearray(b'\x9f\xf7Z\xfa\xd5\x94C\x11\x89\xf7\xf9,\xa0!\x18\xad')
 
+    #
+    # This app has a lot of fields in its dev fields description but only a few are populated. If you have examples where more of the fields are populated than are
+    # represented here, please send in the example FIT file and I will add the additional fields.
+    #
+
     _records_tablename = 'dozen_run_records'
     _records_version = 1
     _records_pk = ("activity_id", "record")
@@ -61,9 +64,7 @@ class fbb_dozen_run(ActivityPluginBase):
         'timestamp': {'args': [DateTime]},
         'momentary_energy_expenditure': {'args': [Float], 'units': 'c/hr'},
         'relative_running_economy': {'args': [Float]},
-        'power': {'args': [Float], 'units': 'watts'},
         'training_peaks_re': {'args': [Float]},
-        'fellnr_re': {'args': [Float]}
     }
 
     _sessions_tablename = 'dozen_run_sessions'
@@ -72,7 +73,6 @@ class fbb_dozen_run(ActivityPluginBase):
         'activity_id': {'args': [String, ForeignKey('activities.activity_id')], 'kwargs': {'primary_key': True}},
         'timestamp': {'args': [DateTime]},
         'avg_running_economy': {'args': [Float]},
-        'avg_power': {'args': [Float], 'units': 'watts'},
         'avg_training_peaks_re': {'args': [Float]},
         'xuxumatu_re': {'args': [Float]}
     }
@@ -90,9 +90,7 @@ class fbb_dozen_run(ActivityPluginBase):
                 'timestamp'                     : fit_file.utc_datetime_to_local(message_fields.timestamp),
                 'momentary_energy_expenditure'  : self._get_field(message_fields, ['dev_eE', 'dev_engExpend']),
                 'relative_running_economy'      : self._get_field(message_fields, ['dev_rE', 'dev_runEcono']),
-                'power'                         : message_fields.get('dev_pwr'),
                 'training_peaks_re'             : message_fields.get('dev_tpRE'),
-                'fellnr_re'                     : message_fields.get('dev_frnrRE'),
             }
             logger.debug("writing %s record %r for %s", self.__class__.__name__, record, fit_file.filename)
             activity_db_session.add(record_table(**record))
@@ -107,7 +105,6 @@ class fbb_dozen_run(ActivityPluginBase):
                 'activity_id'           : activity_id,
                 'timestamp'             : fit_file.utc_datetime_to_local(message_fields.timestamp),
                 'avg_running_economy'   : message_fields.get('dev_aE'),
-                'avg_power'             : message_fields.get('dev_apwr'),
                 'avg_training_peaks_re' : message_fields.get('dev_tpaRE'),
                 'xuxumatu_re'           : message_fields.get('dev_xRE'),
             }

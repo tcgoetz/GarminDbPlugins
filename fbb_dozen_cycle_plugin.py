@@ -34,10 +34,7 @@ def create_activity_view(cls, act_db):
         cls.activities_table.max_cadence.label('max_rpms'),
         cls.round_ext_col(cls.activities_table, 'avg_speed'),
         cls.round_ext_col(cls.activities_table, 'max_speed'),
-        cls.round_col('estimated_power_avg'),
-        cls.round_col('max_power'),
         cls.round_col('max_ftp'),
-        cls.round_col('normalized_power'),
         cls.activities_table.training_effect.label('training_effect'),
         cls.activities_table.anaerobic_training_effect.label('anaerobic_training_effect')
     ]
@@ -51,7 +48,10 @@ class fbb_dozen_cycle(ActivityPluginBase):
 
     _application_id = bytearray(b'\xe8\xa4bZ\x84}@\x9a\x95d\xaf\x1f\xcb\x96C\x05')
 
-    _sport = 2  # Sport.cycling: 2
+    #
+    # This app has a lot of fields in its dev fields description but only a few are populated. If you have examples where more of the fields are populated than are
+    # represented here, please send in the example FIT file and I will add the additional fields.
+    #
 
     _records_tablename = 'dozen_cycle_records'
     _records_version = 1
@@ -60,9 +60,7 @@ class fbb_dozen_cycle(ActivityPluginBase):
         'activity_id': {'args': [String, ForeignKey('activities.activity_id')]},
         'record': {'args': [Integer]},
         'timestamp': {'args': [DateTime]},
-        'estimated_power': {'args': [Float], 'units': 'watts'},
         'percent_grade': {'args': [Float]},
-        'normalized_power': {'args': [Float], 'units': 'watts'},
         'estmated_ftp': {'args': [Float], 'units': 'watts'}
     }
 
@@ -71,10 +69,7 @@ class fbb_dozen_cycle(ActivityPluginBase):
     _sessions_cols = {
         'activity_id': {'args': [String, ForeignKey('activities.activity_id')], 'kwargs': {'primary_key': True}},
         'timestamp': {'args': [DateTime]},
-        'estimated_power_avg': {'args': [Float], 'units': 'watts'},
-        'max_power': {'args': [Float], 'units': 'watts'},
         'max_ftp': {'args': [Float], 'units': 'watts'},
-        'normalized_power': {'args': [Float], 'units': 'watts'}
     }
 
     _tables = {}
@@ -88,9 +83,7 @@ class fbb_dozen_cycle(ActivityPluginBase):
                 'activity_id'       : activity_id,
                 'record'            : record_num,
                 'timestamp'         : fit_file.utc_datetime_to_local(message_fields.timestamp),
-                'estimated_power'   : message_fields.get('dev_ePwr'),
                 'percent_grade'     : message_fields.get('dev_grade'),
-                'normalized_power'  : message_fields.get('dev_nPwr'),
                 'estmated_ftp'      : message_fields.get('dev_eFTP'),
             }
             logger.debug("writing %s record %r for %s", self.__class__.__name__, record, fit_file.filename)
@@ -104,10 +97,7 @@ class fbb_dozen_cycle(ActivityPluginBase):
             session = {
                 'activity_id'           : activity_id,
                 'timestamp'             : fit_file.utc_datetime_to_local(message_fields.timestamp),
-                'estimated_power_avg'   : message_fields.get('dev_ePwrAv'),
-                'max_power'             : message_fields.get('dev_ePwrMx'),
                 'max_ftp'               : message_fields.get('dev_mxFTP'),
-                'normalized_power'      : message_fields.get('dev_nPwr'),
             }
             logger.debug("writing %s session %r for %s message %r", self.__class__.__name__, session, fit_file.filename, message_fields)
             activity_db_session.add(session_table(**session))

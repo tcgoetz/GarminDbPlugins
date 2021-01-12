@@ -46,6 +46,11 @@ class ActivityPluginBase():
             if field_name in message_fields:
                 return message_fields[field_name]
 
+    @classmethod
+    def filter_data(cls, indict):
+        """Filter None and 0 values from a dict."""
+        return {key: value for key, value in indict.items() if value}
+
     def __str__(self):
         """Return a string representation of the class instance."""
-        return f'{self.__class__.__name__}(tables {self._records_tablename} and {self._sessions_tablename})'
+        return f'{self.__class__.__name__}(tables {repr(self._tables.keys())})'
