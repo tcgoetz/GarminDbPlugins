@@ -1,4 +1,4 @@
-"""Plugin for processing for the IQ data field Dozen Run from fbbbrown."""
+"""Plugin for processing for the IQ data field Dozen Run from fbbbrown: https://apps.garmin.com/en-US/apps/9ff75afa-d594-4311-89f7-f92ca02118ad."""
 
 __author__ = "Tom Goetz"
 __copyright__ = "Copyright Tom Goetz"

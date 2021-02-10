@@ -1,4 +1,4 @@
-"""Plugin for processing heart rate variance data from the IQ application Heart Monitor + HRV from fbbbrown."""
+"""Plugin for processing heart rate variance data from the IQ application Heart Monitor + HRV from fbbbrown: https://apps.garmin.com/en-US/apps/ff2e268f-bdcc-4580-b03e-809336d56f2a."""
 
 __author__ = "Tom Goetz"
 __copyright__ = "Copyright Tom Goetz"

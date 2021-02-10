@@ -1,4 +1,4 @@
-"""Plugin for processing data from the IQ application Elliptical from fbbbrown."""
+"""Plugin for processing data from the IQ application Elliptical from fbbbrown: https://apps.garmin.com/en-US/apps/172bdca5-268e-4c0e-bb6e-12beee6adc17."""
 
 __author__ = "Tom Goetz"
 __copyright__ = "Copyright Tom Goetz"

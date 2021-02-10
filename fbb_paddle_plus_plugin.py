@@ -1,4 +1,4 @@
-"""Plugin for processing for the IQ App Paddle Plus from fbbbrown."""
+"""Plugin for processing for the IQ App Paddle Plus from fbbbrown: https://apps.garmin.com/en-US/apps/749a7702-3ec5-42be-b9e3-731b1b13f7f6."""
 
 __author__ = "Tom Goetz"
 __copyright__ = "Copyright Tom Goetz"
