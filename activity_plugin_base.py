@@ -17,7 +17,7 @@ class ActivityPluginBase():
     def matches_activity_file(cls, fit_file):
         """Return if the file matches this plugin."""
         if hasattr(cls, '_application_id'):
-            return cls._application_id == fit_file.dev_application_id
+            return cls._application_id in fit_file.dev_application_ids
         if hasattr(cls, '_sport') and (fit_file.sport_type is None or fit_file.sport_type.value is not cls._sport):
             return False
         if hasattr(cls, '_sub_sport') and (fit_file.sub_sport_type is None or fit_file.sub_sport_type.value is not cls._sub_sport):

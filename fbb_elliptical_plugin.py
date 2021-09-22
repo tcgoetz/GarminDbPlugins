@@ -7,7 +7,7 @@ __license__ = "GPL"
 import logging
 from sqlalchemy import Integer, Float, DateTime, String, ForeignKey
 
-from activity_plugin_base import ActivityPluginBase
+from garmindb import ActivityPluginBase
 
 
 logger = logging.getLogger(__file__)
