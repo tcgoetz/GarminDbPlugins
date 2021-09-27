@@ -8,7 +8,7 @@ import logging
 import datetime
 from sqlalchemy import Integer, Float, DateTime, String, ForeignKey, Time
 
-from activity_plugin_base import ActivityPluginBase
+from garmindb import ActivityFitPluginBase
 
 
 logger = logging.getLogger(__file__)
@@ -52,7 +52,7 @@ def ms_to_dt_time(time_ms):
 #     cls.create_join_view(act_db, view_name, view_selectable, cls.activities_table, order_by=cls.activities_table.start_time.desc())
 
 
-class stryd_zones(ActivityPluginBase):
+class stryd_zones(ActivityFitPluginBase):
     """Plugin for processing for the IQ data field stryd zones."""
 
     _application_id = bytearray(b'\x18\xfb,\xf0\x1aKC\r\xadf\x98\x8c\x84t!\xf4')

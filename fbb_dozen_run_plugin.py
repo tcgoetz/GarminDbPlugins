@@ -7,7 +7,7 @@ __license__ = "GPL"
 import logging
 from sqlalchemy import Integer, Float, DateTime, String, ForeignKey
 
-from garmindb import ActivityPluginBase
+from garmindb import ActivityFitPluginBase
 
 
 logger = logging.getLogger(__file__)
@@ -45,7 +45,7 @@ def create_activity_view(cls, act_db):
     cls.create_join_view(act_db, view_name, view_selectable, cls.activities_table, order_by=cls.activities_table.start_time.desc())
 
 
-class fbb_dozen_run(ActivityPluginBase):
+class fbb_dozen_run(ActivityFitPluginBase):
     """Plugin for processing for the IQ data field Dozen Run from fbbbrown."""
 
     _application_id = bytearray(b'\x9f\xf7Z\xfa\xd5\x94C\x11\x89\xf7\xf9,\xa0!\x18\xad')

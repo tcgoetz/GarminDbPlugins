@@ -7,7 +7,7 @@ __license__ = "GPL"
 import logging
 from sqlalchemy import Integer, DateTime, String, ForeignKey
 
-from garmindb import ActivityPluginBase
+from garmindb import ActivityFitPluginBase
 
 
 logger = logging.getLogger(__file__)
@@ -35,7 +35,7 @@ def create_activity_view(cls, act_db):
     cls.create_join_view(act_db, view_name, view_selectable, cls.activities_table, order_by=cls.activities_table.start_time.desc())
 
 
-class fbb_hrv(ActivityPluginBase):
+class fbb_hrv(ActivityFitPluginBase):
     """A GarminDb plugin for saving data from the IQ application Heart Monitor + HRV from fbbbrown."""
 
     _application_id = bytearray(b'\x0b\xdc\x0eu\x9b\xaaAz\x8c\x9f\xe9vf*].')

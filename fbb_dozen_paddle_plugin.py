@@ -6,13 +6,13 @@ __license__ = "GPL"
 
 import logging
 
-from garmindb import ActivityPluginBase
+from garmindb import ActivityFitPluginBase
 
 
 logger = logging.getLogger(__file__)
 
 
-class fbb_dozen_paddle(ActivityPluginBase):
+class fbb_dozen_paddle(ActivityFitPluginBase):
     """Plugin for processing for the IQ data field Dozen Paddle from fbbbrown."""
 
     _application_id = bytearray(b'\xd6x,\x853\xf6D{\xb3Rza\xfa\x90SS')
