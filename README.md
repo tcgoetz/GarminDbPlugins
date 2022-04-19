@@ -1,5 +1,9 @@
 # GarminDbPlugins
 
+## Installing Plugins
+
+Download the plugin source from this repo and copy it to ~/HealthData/Plugin.
+
 ## Building Your Own Plugin
 
 ### FIT Activity Files
