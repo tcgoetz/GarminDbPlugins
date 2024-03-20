@@ -1,6 +1,6 @@
 
 
-PLUGIN_DIR=$(shell python3 -c 'from garmindb import ConfigManager; print(ConfigManager.get_plugins_dir())')
+PLUGIN_DIR=$(shell python3 -c 'from garmindb import GarminConnectConfigManager; gc_config = GarminConnectConfigManager(); print(gc_config.get_plugins_dir())')
 publish_plugins:
 	cp ./*_plugin.py $(PLUGIN_DIR)/.
 
