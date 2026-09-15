@@ -20,38 +20,6 @@ def ms_to_dt_time(time_ms):
         return (datetime.datetime.min + datetime.timedelta(milliseconds=time_ms)).time()
 
 
-# @classmethod
-# def create_activity_view(cls, act_db):
-#     """Create a database view for the Stryd Zones plugin data."""
-#     view_selectable = [
-#         cls.activity_id.label('activity_id'),
-#         cls.activities_table.name.label('name'),
-#         cls.activities_table.description.label('description'),
-#         cls.activities_table.sub_sport.label('sub_sport'),
-#         cls.activities_table.start_time.label('start_time'),
-#         cls.activities_table.stop_time.label('stop_time'),
-#         cls.activities_table.elapsed_time.label('elapsed_time'),
-#         cls.activities_table.avg_hr.label('avg_hr'),
-#         cls.activities_table.max_hr.label('max_hr'),
-#         cls.activities_table.avg_rr.label('avg_rr'),
-#         cls.activities_table.max_rr.label('max_rr'),
-#         cls.round_ext_col(cls.activities_table, 'calories'),
-#         cls.round_ext_col(cls.activities_table, 'avg_temperature'),
-#         cls.activities_table.avg_cadence.label('avg_rpms'),
-#         cls.activities_table.max_cadence.label('max_rpms'),
-#         cls.round_ext_col(cls.activities_table, 'avg_speed'),
-#         cls.round_ext_col(cls.activities_table, 'max_speed'),
-#         cls.stance_time.label('stance_time'),
-#         cls.round_col('avg_vertical_oscillation'),
-#         cls.round_col('power'),
-#         cls.activities_table.training_effect.label('training_effect'),
-#         cls.activities_table.anaerobic_training_effect.label('anaerobic_training_effect')
-#     ]
-#     view_name = 'stryd_zones_activities'
-#     logger.info("Creating view %s of %s and %s if needed.", view_name, cls, cls.activities_table)
-#     cls.create_join_view(act_db, view_name, view_selectable, cls.activities_table, order_by=cls.activities_table.start_time.desc())
-
-
 class stryd_zones(ActivityFitPluginBase):
     """Plugin for processing for the IQ data field stryd zones."""
 

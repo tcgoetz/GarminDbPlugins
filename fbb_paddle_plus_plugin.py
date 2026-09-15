@@ -15,6 +15,8 @@ logger = logging.getLogger(__file__)
 class fbb_paddle_plus(ActivityFitPluginBase):
     """Plugin for processing for the IQ data field Dozen Paddle from fbbbrown."""
 
+    __plugin_interface_implementation_version__ = 1
+
     _application_id = bytearray(b't\x9aw\x02>\xc5B\xbe\xb9\xe3s\x1b\x1b\x13\xf7\xf6')
 
     _tables = {}
