@@ -23,6 +23,8 @@ def ms_to_dt_time(time_ms):
 class stryd_zones(ActivityFitPluginBase):
     """Plugin for processing for the IQ data field stryd zones."""
 
+    __plugin_interface_implementation_version__ = 1
+
     _application_id = bytearray(b'\x18\xfb,\xf0\x1aKC\r\xadf\x98\x8c\x84t!\xf4')
 
     _records_tablename = 'stryd_zones_records'
