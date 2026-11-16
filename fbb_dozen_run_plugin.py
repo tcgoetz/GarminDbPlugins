@@ -42,11 +42,13 @@ def create_activity_view(cls, act_db):
     ]
     view_name = 'dozen_run_activities'
     logger.info("Creating view %s of %s and %s if needed.", view_name, cls, cls.activities_table)
-    cls.create_join_view(act_db, view_name, view_selectable, cls.activities_table, order_by=cls.activities_table.start_time.desc())
+    cls.create_join_view(act_db, view_name, view_selectable, [cls.activities_table], order_by=cls.activities_table.start_time.desc())
 
 
 class fbb_dozen_run(ActivityFitPluginBase):
     """Plugin for processing for the IQ data field Dozen Run from fbbbrown."""
+
+    __plugin_interface_implementation_version__ = 1
 
     _application_id = bytearray(b'\x9f\xf7Z\xfa\xd5\x94C\x11\x89\xf7\xf9,\xa0!\x18\xad')
 

@@ -36,11 +36,13 @@ def create_activity_view(cls, act_db):
     ]
     view_name = 'elliptical_activities'
     logger.info("Creating elliptical view %s if needed.", view_name)
-    cls.create_join_view(act_db, view_name, view_selectable, cls.activities_table, order_by=cls.activities_table.start_time.desc())
+    cls.create_join_view(act_db, view_name, view_selectable, [cls.activities_table], order_by=cls.activities_table.start_time.desc())
 
 
 class fbb_elliptical(ActivityFitPluginBase):
     """A GarminDb plugin for saving data from the IQ application Elliptical from fbbbrown."""
+
+    __plugin_interface_implementation_version__ = 1
 
     _application_id = bytearray(b'\x17+\xdc\xa5&\x8eL\x0e\xbbn\x12\xbe\xeej\xdc\x17')
 
